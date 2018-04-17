@@ -63,12 +63,50 @@
             - 1111 0*000* 10*01 1111* 10*01 1000* 10*00 0011* = F0 9F 98 83
             - https://apps.timwhitlock.info/emoji/tables/unicode
 
-## In 자바스크립트
-- 자바스크립트는 내부적으로 UCS-2로 인코딩
-    - UCS-2: 유니코드 코드 포인트를 16비트의 고정 길이로 표현
-    - UTF-16: UCS-2의 확장으로 코드 포인트를 1개 또는 2개의 16비트로 표현
-    - 작성 중
-    - https://mathiasbynens.be/notes/javascript-encoding
-- charCodeAt() = 유니코드 코드 포인트를 10진수로 리턴
-- 유니코드와 자바스크립트
-    - http://ohgyun.com/620
+## 자바스크립트와 유니코드
+* 자바스크립트는
+    * 언어 레벨에서는 UCS-2
+    * 엔진 레벨에서는 UCS-2 또는 UTF-16
+        * UCS-2: 유니코드 코드 포인트를 16비트의 고정 길이로 표현
+        * UTF-16: UCS-2의 확장으로 코드 포인트를 1개 또는 2개의 16비트로 표현
+    * https://mathiasbynens.be/notes/javascript-encoding
+    * http://ohgyun.com/620
+* 문자열을 유니코드 코드 포인트로 표기할 수 있음('A' = '\u0041')
+* `string.charCodeAt()` -> 유니코드 코드 포인트를 10진수(decimal)로 리턴
+    * `number.toString(16)`으로 hex로 변환 가능
+* `String.fromCharCode()` 로 유니코드 코드 포인트로 가져올 수 있음
+    ```js
+    const codeDecimal = parseInt(41, 16);
+    const char = String.fromCharCode(codeDecimal);
+    console.log(char); //-> 'A'
+    ```
+* 서로게이트 페어
+    * BMP 영역을 벗어나는 캐릭터
+    * UTF-16 방식으로, 두 개의 16비트로 한 글자를 표현
+* String.fromCodePoint()
+    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
+
+## Node.js Buffer
+* Buffer에 바이너리를 담아둠
+* `buffer.toString(encoding)`
+    * 바이너리가 인코딩된 상태라고 본다
+    * 'utf8'로 디코딩
+    * 'hex'로 디코딩
+* Buffer.from('가나다')
+* https://nodejs.org/api/buffer.html#buffer_buf_tostring_encoding_start_end
+
+## 캐릭터셋 전환
+* https://github.com/ashtuchkin/iconv-lite 
+* 바이너리가 인코딩된 상태
+* https://gist.github.com/developer-sdk/a70bbf570d36e119c4853bedcfdd29f3 
+
+## 요청 읽어오기
+* http message 스펙
+    * ascii로 작성 
+    * body는 헤더 아래 뉴 라인 이후 작성
+    * body 내용은 헤더 중 entity header 영역으로 판단(content-type, content-length)
+    * 요청과 응답 모두 동일 (인코딩 이슈가 있을 때, 보내는 쪽과 받는 쪽 모두에서 발생할 수 있지만 잘 생각해보면 문제 없음)
+        * euckr 페이지에서 파라미터를 잘 못 받는 경우 (뉴스 검색)
+        * euckr 페이지 응답을 파싱할 때 잘 되지 않는 경우 (뉴스 파싱)
+    * 예제를 보면 이해하기 쉬울 듯
+    * https://developer.mozilla.org/ko/docs/Web/HTTP/Messages
