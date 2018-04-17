@@ -85,6 +85,7 @@
     * UTF-16 방식으로, 두 개의 16비트로 한 글자를 표현
 * String.fromCodePoint()
     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
+* https://dmitripavlutin.com/what-every-javascript-developer-should-know-about-unicode/
 
 ## Node.js Buffer
 * Buffer에 바이너리를 담아둠
