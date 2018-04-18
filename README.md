@@ -1,5 +1,5 @@
 ## 캐릭터셋과 인코딩
-- 캐릭터셋 (Character Set) = 문자집합 = 활자의 정의
+- 캐릭터셋(Character Set) = 문자집합 = 활자의 정의
 - 인코딩 (Encoding) = 각 활자를 바이트코드와 매핑
 - 하지만, 혼용되어 사용되는 경우가 많음
 - 참고: http://d2.naver.com/helloworld/19187
@@ -11,15 +11,59 @@
     - UCS-2, UCS-4: 코드포인트를 코드화
     - UTF-7, UTF-8, UTF-16, UTF-32: 변환 인코딩 형식
     - UTF-8: ASCII와 호환이 가능해서 가장 많이 사용됨
-- 인코딩과 유니코드는 전혀 다른 개념임
+- 유니코드는 캐릭터셋이고, UTF-8과 UTF-16 등은 유니코드를 인코딩하는 방법 중 하나인 것
 
-## Hex 뷰어로 보기
-- ASCII (ISO8859-1) ([Table](https://cs.stanford.edu/~miles/iso8859.html))
-- UTF8
-- UTF8 with BOM
-- UTF16 with Big Endian
-- UTF16 with Little Endian
-- 한글 ([Table](http://jrgraphix.net/r/Unicode/AC00-D7AF))
+## 인코딩 방식 (Hex Viewer로 보기)
+- ASCII (ISO8859-1)
+    - [Table](https://cs.stanford.edu/~miles/iso8859.html)
+    - 예제: [./resources/ascii.txt]
+- UTF-8
+    - 아래 UTF-8 인코딩 방식 참고
+- UTF-8 with 한글
+    - [Table](http://jrgraphix.net/r/Unicode/AC00-D7AF))
+- UTF-8 with BOM
+    - 간혹 오래된 에디터나 브라우저에서 BOM 캐릭터 때문에 문제가 되는 경우가 있음
+    - 최근엔 거의 대부분 UTF8을 사용하므로, 대부분 삭제하고 사용함
+    - 예제: [./resources/utf8-with-bom.txt]
+    - 아래 BOM 설명 참고
+- UCS-2
+    - 유니코드 코드 포인트를 16비트의 고정 길이로 표현
+- UTF-16
+    - UCS-2의 확장으로 코드 포인트를 1개 또는 2개의 16비트로 표현
+    - 기본 다국어 영역 이후의 코드는 서로게이트 페어로 표현
+    - 엔디언에 따라 시작 값을 할당
+        - UTF16 with Big Endian
+            - 예제: [./resources/utf16-be.txt]
+        - UTF16 with Little Endian
+            - 예제: [./resources/utf16-le.txt]
+    - https://ko.wikipedia.org/wiki/UTF-16
+
+## UTF-8 인코딩 방식
+- 코드 포인트 구간에 따라 다름
+    - U+0000~U+007F -> 1바이트
+        - 7비트: 0xxx xxxx 그대로 인코딩
+        - A = U+0041 = 0100 0001
+            - 0*100 0001* = 41
+            - http://jrgraphix.net/r/Unicode/0020-007F
+        - 예제: [./resources/utf8.txt]
+    - U+0080~U+07FF -> 2바이트
+        - 11비트: 110x xxxx 10xx xxxx
+        - £ = U+00A3 = 0000 0*000 1010 0011*
+            - 110*0 0010* 10*10 0011* = C2 A3
+            - http://jrgraphix.net/r/Unicode/00A0-00FF
+        - 예제: [./resources/utf8-latin1.txt]
+    - U+0800~U+FFFF -> 3바이트
+        - 16비트: 1110 xxxx 10xx xxxx 10xx xxxx
+        - 가 = U+AC00 = *1010 1100 0000 0000*
+            - 1110 *1010* 10*11 0000* 10*00 0000* = EA B0 80
+            - http://jrgraphix.net/r/Unicode/AC00-D7AF
+        - 예제: [./resources/utf8-korean.txt]
+    - U+010000~U+01FFFFF -> 4바이트
+        - 21비트: 1111 0xxx 10xx xxxx 10xx xxxx 10xx xxxx
+        - 😃 = U+1F603 = U+01F603 = 000*0 0001 1111 0110 0000 0011*
+            - 1111 0*000* 10*01 1111* 10*01 1000* 10*00 0011* = F0 9F 98 83
+            - https://apps.timwhitlock.info/emoji/tables/unicode
+        - 예제: [./resources/utf8-emoji.txt]
 
 ## BOM (Byte Order Mark)
 - http://blog.wystan.net/2007/08/18/bom-byte-order-mark-problem
@@ -40,35 +84,10 @@
         - 빅엔디언: FE FF로 시작해서, 본문에 12 34
         - 리틀엔디언: FF FE로 시작해서, 본문에 34 12
 
-## UTF-8 인코딩 방식
-- 코드 포인트 구간에 따라 다름
-    - U+0000~U+007F -> 1바이트
-        - 7비트: 0xxx xxxx 그대로 인코딩
-        - A = U+0041 = 0100 0001
-            - 0*100 0001* = 41
-            - http://jrgraphix.net/r/Unicode/0020-007F
-    - U+0080~U+07FF -> 2바이트
-        - 11비트: 110x xxxx 10xx xxxx
-        - £ = U+00A3 = 0000 0*000 1010 0011*
-            - 110*0 0010* 10*10 0011* = C2 A3
-            - http://jrgraphix.net/r/Unicode/00A0-00FF
-    - U+0800~U+FFFF -> 3바이트
-        - 16비트: 1110 xxxx 10xx xxxx 10xx xxxx
-        - 가 = U+AC00 = *1010 1100 0000 0000*
-            - 1110 *1010* 10*11 0000* 10*00 0000* = EA B0 80
-            - http://jrgraphix.net/r/Unicode/AC00-D7AF
-    - U+010000~U+01FFFFF -> 4바이트
-        - 21비트: 1111 0xxx 10xx xxxx 10xx xxxx 10xx xxxx
-        - 😃 = U+1F603 = U+01F603 = 000*0 0001 1111 0110 0000 0011*
-            - 1111 0*000* 10*01 1111* 10*01 1000* 10*00 0011* = F0 9F 98 83
-            - https://apps.timwhitlock.info/emoji/tables/unicode
-
 ## 자바스크립트와 유니코드
 * 자바스크립트는
     * 언어 레벨에서는 UCS-2
     * 엔진 레벨에서는 UCS-2 또는 UTF-16
-        * UCS-2: 유니코드 코드 포인트를 16비트의 고정 길이로 표현
-        * UTF-16: UCS-2의 확장으로 코드 포인트를 1개 또는 2개의 16비트로 표현
     * https://mathiasbynens.be/notes/javascript-encoding
     * http://ohgyun.com/620
 * 문자열을 유니코드 코드 포인트로 표기할 수 있음('A' = '\u0041')
@@ -97,13 +116,14 @@
 * https://nodejs.org/api/buffer.html#buffer_buf_tostring_encoding_start_end
 
 ## 캐릭터셋 전환
-* https://github.com/ashtuchkin/iconv-lite 
+* https://github.com/ashtuchkin/iconv-lite
 * 바이너리가 인코딩된 상태
-* https://gist.github.com/developer-sdk/a70bbf570d36e119c4853bedcfdd29f3 
+* 예제: [./converting.js]
+* https://gist.github.com/developer-sdk/a70bbf570d36e119c4853bedcfdd29f3
 
 ## 요청 읽어오기
 * http message 스펙
-    * ascii로 작성 
+    * ascii로 작성
     * body는 헤더 아래 뉴 라인 이후 작성
     * body 내용은 헤더 중 entity header 영역으로 판단(content-type, content-length)
     * 요청과 응답 모두 동일 (인코딩 이슈가 있을 때, 보내는 쪽과 받는 쪽 모두에서 발생할 수 있지만 잘 생각해보면 문제 없음)
