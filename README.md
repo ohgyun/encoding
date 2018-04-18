@@ -20,7 +20,7 @@
 - UTF-8
     - 아래 UTF-8 인코딩 방식 참고
 - UTF-8 with 한글
-    - [Table](http://jrgraphix.net/r/Unicode/AC00-D7AF))
+    - [Table](http://jrgraphix.net/r/Unicode/AC00-D7AF)
 - UTF-8 with BOM
     - 간혹 오래된 에디터나 브라우저에서 BOM 캐릭터 때문에 문제가 되는 경우가 있음
     - 최근엔 거의 대부분 UTF8을 사용하므로, 대부분 삭제하고 사용함
