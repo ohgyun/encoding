@@ -16,7 +16,7 @@
 ## 인코딩 방식 (Hex Viewer로 보기)
 - ASCII (ISO8859-1)
     - [Table](https://cs.stanford.edu/~miles/iso8859.html)
-    - 예제: [./resources/ascii.txt]
+    - 예제: [./resources/ascii.txt](./resources/ascii.txt)
 - UTF-8
     - 아래 UTF-8 인코딩 방식 참고
 - UTF-8 with 한글
@@ -24,7 +24,7 @@
 - UTF-8 with BOM
     - 간혹 오래된 에디터나 브라우저에서 BOM 캐릭터 때문에 문제가 되는 경우가 있음
     - 최근엔 거의 대부분 UTF8을 사용하므로, 대부분 삭제하고 사용함
-    - 예제: [./resources/utf8-with-bom.txt]
+    - 예제: [./resources/utf8-with-bom.txt](./resources/utf8-with-bom.txt)
     - 아래 BOM 설명 참고
 - UCS-2
     - 유니코드 코드 포인트를 16비트의 고정 길이로 표현
@@ -33,9 +33,9 @@
     - 기본 다국어 영역 이후의 코드는 서로게이트 페어로 표현
     - 엔디언에 따라 시작 값을 할당
         - UTF16 with Big Endian
-            - 예제: [./resources/utf16-be.txt]
+            - 예제: [./resources/utf16-be.txt](./resources/utf16-be.txt)
         - UTF16 with Little Endian
-            - 예제: [./resources/utf16-le.txt]
+            - 예제: [./resources/utf16-le.txt](./resources/utf16-le.txt)
     - https://ko.wikipedia.org/wiki/UTF-16
 
 ## UTF-8 인코딩 방식
@@ -45,25 +45,27 @@
         - A = U+0041 = 0100 0001
             - 0*100 0001* = 41
             - http://jrgraphix.net/r/Unicode/0020-007F
-        - 예제: [./resources/utf8.txt]
+        - 예제: [./resources/utf8.txt](./resources/utf8.txt)
     - U+0080~U+07FF -> 2바이트
         - 11비트: 110x xxxx 10xx xxxx
         - £ = U+00A3 = 0000 0*000 1010 0011*
             - 110*0 0010* 10*10 0011* = C2 A3
             - http://jrgraphix.net/r/Unicode/00A0-00FF
-        - 예제: [./resources/utf8-latin1.txt]
+        - 예제: [./resources/utf8-latin1.txt](./resources/utf8-latin1.txt)
     - U+0800~U+FFFF -> 3바이트
         - 16비트: 1110 xxxx 10xx xxxx 10xx xxxx
         - 가 = U+AC00 = *1010 1100 0000 0000*
             - 1110 *1010* 10*11 0000* 10*00 0000* = EA B0 80
             - http://jrgraphix.net/r/Unicode/AC00-D7AF
-        - 예제: [./resources/utf8-korean.txt]
+        - 예제: [./resources/utf8-korean.txt](./resources/utf8-korean.txt)
     - U+010000~U+01FFFFF -> 4바이트
         - 21비트: 1111 0xxx 10xx xxxx 10xx xxxx 10xx xxxx
         - 😃 = U+1F603 = U+01F603 = 000*0 0001 1111 0110 0000 0011*
             - 1111 0*000* 10*01 1111* 10*01 1000* 10*00 0011* = F0 9F 98 83
             - https://apps.timwhitlock.info/emoji/tables/unicode
-        - 예제: [./resources/utf8-emoji.txt]
+        - 예제:
+            - [./resources/utf8-emoji.txt](./resources/utf8-emoji.txt)
+            - [./converting.js](./converting.js)
 
 ## BOM (Byte Order Mark)
 - http://blog.wystan.net/2007/08/18/bom-byte-order-mark-problem
@@ -104,6 +106,7 @@
     * UTF-16 방식으로, 두 개의 16비트로 한 글자를 표현
 * String.fromCodePoint()
     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCodePoint
+* 예제: [./unicode.js](./unicode.js)
 * https://dmitripavlutin.com/what-every-javascript-developer-should-know-about-unicode/
 
 ## Node.js Buffer
@@ -118,7 +121,7 @@
 ## 캐릭터셋 전환
 * https://github.com/ashtuchkin/iconv-lite
 * 바이너리가 인코딩된 상태
-* 예제: [./converting.js]
+* 예제: [./converting.js](./converting.js)
 * https://gist.github.com/developer-sdk/a70bbf570d36e119c4853bedcfdd29f3
 
 ## 요청 읽어오기
